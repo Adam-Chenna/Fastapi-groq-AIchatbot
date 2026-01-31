@@ -16,6 +16,11 @@ app = FastAPI()
 class Prompt(BaseModel):
     question: str
 
+@app.get("/")
+def home():
+    return {"message": "FastAPI Groq chatbot is live 🚀"}
+
+
 @app.post("/generate")
 async def generate_llm(prompt: Prompt):
     response = client.responses.create(
