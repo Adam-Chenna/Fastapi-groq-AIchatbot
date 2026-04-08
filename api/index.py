@@ -25,6 +25,6 @@ def home():
 async def generate_llm(prompt: Prompt):
     response = client.responses.create(
         input=prompt.question,
-        model="openai/gpt-oss-20b"
+        model="llama3-70b-8192"
     )
     return {"answer": response.output_text}
