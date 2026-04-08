@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = OpenAI(
-    api_key=print(os.environ.get("GROQ_API_KEY")),
+    api_key=os.environ.get("GROQ_API_KEY"),
     base_url="https://api.groq.com/openai/v1",
 )
 
@@ -23,13 +23,20 @@ def home():
 
 @app.post("/generate")
 async def generate_llm(prompt: Prompt):
-    response = client.chat.completions.create(
-    model="llama3-70b-8192",
-    messages=[
-        {"role": "user", "content": prompt.question}
-    ]
-)
+    try:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[
+                {"role": "user", "content": prompt.question}
+            ]
+        )
 
-    return {
-        "answer": response.choices[0].message.content
-}
+        return {
+            "answer": response.choices[0].message.content
+        }
+
+    except Exception as e:
+        return {"error": str(e)}
+    
+
+
